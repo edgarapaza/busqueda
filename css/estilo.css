@@ -1,0 +1,37 @@
+/*
+Estilo del Header
+ */
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	background-color: white;
+	color: #002222;
+	margin:0 auto;
+	max-width: 1024px;
+	padding: 0;
+
+}
+header
+{
+	background-color: orange;
+}
+
+#menu li
+{
+	display: inline-block;
+	margin: 10px;
+	list-style: none;
+	padding: 0px 10px;
+}
+#menu li a
+{
+	text-decoration: none;
+}
+#menu li a:hover
+{
+	background-color: #B6F01C;
+	color: white;
+	padding: 10px;
+}
