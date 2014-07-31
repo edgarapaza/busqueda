@@ -25,42 +25,49 @@ echo "Recibido: ".$codigo;
 			<thead>
 				<tr>
 					<th>Num</th>
-					<th>Escrituras</th>
+					<th>Sub-Serie</th>
+					<th>Nombre Persona</th>
+					<th>Nombre Bien</th>
+					<th>Fecha</th>
 					<th>Opciones</th>
 				</tr>
 			</thead>
 			<tbody>
 			<?php
-				if($result_otorgante = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv = $codigo;"))
+
+				if($result_otorgantes = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv = $codigo;"))
 				{
-					echo "Numero de Resultados: ".$result_otorgante->num_rows;
+					echo "Numero de Resultados: ".$result_otorgantes->num_rows;
 					$i =1;	
-					if($result_otorgante->num_rows > 0)
+					if($result_otorgantes->num_rows > 0)
 					{
-						while($fila_otorgantes = $result_otorgante->fetch_array())
+						while($fila = $result_otorgantes->fetch_array())
 						{
 						echo "<tr><td>"; 
 								echo $i;
-						echo "</td><td>";
-							//Buscar los registros de la escritura a mostrar
-							$sql_otorgante = "SELECT cod_sct, cod_not, num_sct, cod_dst, fec_doc, cod_sub, nom_bie, can_fol, cod_pro, obs_sct, num_fol FROM escrituras1 WHERE cod_sct =".$fila_otorgantes["cod_sct"]."";
-							if($result1 = $mysqli->query($sql_otorgante))
-							{
-								if($result1->num_rows > 0)
-								{
-									$datos_escritura1 = $result1->fetch_array();
 
-									//Buscar el nombre de la sub serie
-									$sql_subserie1 = "call convertir_subseries(".$datos_escritura1["cod_sub"].");";
-									$sub1 = $mysqli->query($sql_subserie1);
-									$subserie1 = $sub1->fetch_array();
-									echo $subserie1["des_sub"];
-									echo "<br/>";
-									echo $datos_escritura1["fec_doc"];
-									echo "<br/>";
-								}	
-							}
-								echo $fila_otorgantes["cod_sct"]; 
+							$query1 = "select * from escrituras1 where cod_sct = ".$fila["cod_sct"];
+							if($escrituras = $mysqli->query($query1))
+								{
+								if($escrituras->num_rows > 0)
+								{
+									$escritura = $escrituras->fetch_array();
+						echo "</td><td>";
+									$query2 = "select des_sub from subseries WHERE cod_sub =".$escritura[0];
+									$exe_query2 = $mysqli->query($query2);
+									$subserie1 = $exe_query2->fetch_array();
+
+									echo $subserie1[0];
+							
+								
+						echo "</td><td>";
+									echo $escritura[1];
+						echo "</td><td>";
+									echo $escritura[4];			
+						echo "</td><td>";
+									echo $escritura[6];			
+								}
+							}	
 						echo "</td><td>"; 
 								echo "<a href='mostrardetalles.php?codigo=". $fila_otorgantes["Cod_inv"] ."'>Mostrar Informacion</a>";
 						echo "</td></tr>";
@@ -80,48 +87,57 @@ echo "Recibido: ".$codigo;
 		</table>
 	</section>
 
+	<!--     FAVORECIDOS     -->
+
 	<section id="columna2" class="datagrid">
 		<caption>Favoritos</caption><br/>
 		<table border="1" id="t_favorecidos">
 			<thead>
 				<tr>
 					<th>Num</th>
-					<th>Escrituras</th>
+					<th>Sub-Serie</th>
+					<th>Nombre Persona</th>
+					<th>Nombre Bien</th>
+					<th>Fecha</th>
 					<th>Opciones</th>
 				</tr>
 			</thead>
 			<tbody>
 			<?php
-				if($result = $mysqli->query("SELECT * FROM escrifavor1 WHERE cod_inv = $codigo;"))
+				if($result_favorecidos = $mysqli->query("SELECT * FROM escrifavor1 WHERE cod_inv = $codigo;"))
 				{
-					echo "Numero de Resultados: ".$result->num_rows;
+					echo "Numero de Resultados: ".$result_favorecidos->num_rows;
 					$i =1;	
-					if($result->num_rows > 0)
+					if($result_favorecidos->num_rows > 0)
 					{
-						while($fila = $result->fetch_array())
+						while($fila2 = $result_favorecidos->fetch_array())
 						{
 						echo "<tr><td>"; 
 								echo $i;
-						echo "</td><td>";
-							//Buscar los registros de la escritura a mostrar
-							$sql_favorecido = "SELECT cod_sct, cod_not, num_sct, cod_dst, fec_doc, cod_sub, nom_bie, can_fol, cod_pro, obs_sct, num_fol FROM escrituras1 WHERE cod_sct =".$fila["cod_sct"]."";
-							if($result = $mysqli->query($sql_favorecido))
-							{
-								if($result->num_rows > 0)
+
+							$query3 = "select * from escrituras1 where cod_sct = ".$fila2["cod_sct"];
+							if($escrituras2 = $mysqli->query($query3))
 								{
-									$datos_escritura = $result->fetch_array();
-									//Buscar el nombre de la sub serie
-									$sql_subserie = "call convertir_subseries(".$datos_escritura["cod_sub"].");";
-									$sub = $mysqli->query($sql_subserie);
-									$subserie = $sub->fetch_array();
-									echo $subserie["des_sub"];
+								if($escrituras2->num_rows > 0)
+								{
+									$escritura2 = $escrituras2->fetch_array();
+						echo "</td><td>";
+									$query4 = "select des_sub from subseries WHERE cod_sub =".$escritura2[0];
+									$exe_query2 = $mysqli->query($query4);
+									$subserie2 = $exe_query2->fetch_array();
+
+									echo $subserie2[0];
 							
-									echo "<br/>";
-									echo $datos_escritura["fec_doc"];
-									echo "<br/>";
-								}	
+								
+						echo "</td><td>";
+									echo $escritura2[1];
+						echo "</td><td>";
+									echo $escritura2[4];			
+						echo "</td><td>";
+									echo $escritura2[6];	
+								}
 							}
-							echo $fila["cod_sct"]; 
+							
 						echo "</td><td>"; 
 								echo "<a href='mostrardetalles.php?codigo=". $fila["Cod_inv"] ."'>Mostrar Informacion</a>";
 						echo "</td></tr>";
