@@ -25,24 +25,48 @@ echo "Recibido: ".$codigo;
 			<thead>
 				<tr>
 					<th>Num</th>
-					<th>Escrituras</th>
+					<th>Sub-Serie</th>
+					<th>Nombre Persona</th>
+					<th>Nombre Bien</th>
+					<th>Fecha</th>
 					<th>Opciones</th>
 				</tr>
 			</thead>
 			<tbody>
 			<?php
-				if($result = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv = $codigo;"))
+				if($result_otorgantes = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv = $codigo;"))
 				{
-					echo "Numero de Resultados: ".$result->num_rows;
+					echo "Numero de Resultados: ".$result_otorgantes->num_rows;
 					$i =1;	
-					if($result->num_rows > 0)
+					if($result_otorgantes->num_rows > 0)
 					{
-						while($fila = $result->fetch_array())
+						while($fila = $result_otorgantes->fetch_array())
 						{
 						echo "<tr><td>"; 
 								echo $i;
+
+							$query1 = "select * from escrituras1 where cod_sct = ".$fila["cod_sct"];
+							if($escrituras = $mysqli->query($query1))
+								{
+								if($escrituras->num_rows > 0)
+								{
+									$escritura = $escrituras->fetch_array();
 						echo "</td><td>";
-								echo $fila["cod_sct"]; 
+									$query2 = "select des_sub from subseries WHERE cod_sub =".$escritura[0];
+									$exe_query2 = $mysqli->query($query2);
+									$subserie1 = $exe_query2->fetch_array();
+
+									echo $subserie1[0];
+							
+								
+						echo "</td><td>";
+									echo $escritura[1];
+						echo "</td><td>";
+									echo $escritura[4];			
+						echo "</td><td>";
+									echo $escritura[6];			
+								}
+							}	
 						echo "</td><td>"; 
 								echo "<a href='mostrardetalles.php?codigo=". $fila["Cod_inv"] ."'>Mostrar Informacion</a>";
 						echo "</td></tr>";
@@ -62,30 +86,56 @@ echo "Recibido: ".$codigo;
 		</table>
 	</section>
 
+	<!--     FAVORECIDOS     -->
+
 	<section id="columna2" class="datagrid">
 		<caption>Favoritos</caption><br/>
 		<table border="1" id="t_favorecidos">
 			<thead>
 				<tr>
 					<th>Num</th>
-					<th>Escrituras</th>
+					<th>Sub-Serie</th>
+					<th>Nombre Persona</th>
+					<th>Nombre Bien</th>
+					<th>Fecha</th>
 					<th>Opciones</th>
 				</tr>
 			</thead>
 			<tbody>
 			<?php
-				if($result = $mysqli->query("SELECT * FROM escrifavor1 WHERE cod_inv = $codigo;"))
+				if($result_favorecidos = $mysqli->query("SELECT * FROM escrifavor1 WHERE cod_inv = $codigo;"))
 				{
-					echo "Numero de Resultados: ".$result->num_rows;
+					echo "Numero de Resultados: ".$result_favorecidos->num_rows;
 					$i =1;	
-					if($result->num_rows > 0)
+					if($result_favorecidos->num_rows > 0)
 					{
-						while($fila = $result->fetch_array())
+						while($fila2 = $result_favorecidos->fetch_array())
 						{
 						echo "<tr><td>"; 
 								echo $i;
+
+							$query3 = "select * from escrituras1 where cod_sct = ".$fila2["cod_sct"];
+							if($escrituras2 = $mysqli->query($query3))
+								{
+								if($escrituras2->num_rows > 0)
+								{
+									$escritura2 = $escrituras2->fetch_array();
 						echo "</td><td>";
-								echo $fila["cod_sct"]; 
+									$query4 = "select des_sub from subseries WHERE cod_sub =".$escritura2[0];
+									$exe_query2 = $mysqli->query($query4);
+									$subserie2 = $exe_query2->fetch_array();
+
+									echo $subserie2[0];
+							
+								
+						echo "</td><td>";
+									echo $escritura2[1];
+						echo "</td><td>";
+									echo $escritura2[4];			
+						echo "</td><td>";
+									echo $escritura2[6];	
+								}
+							}
 						echo "</td><td>"; 
 								echo "<a href='mostrardetalles.php?codigo=". $fila["Cod_inv"] ."'>Mostrar Informacion</a>";
 						echo "</td></tr>";
