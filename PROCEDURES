@@ -1,0 +1,28 @@
+PROCEDURES
+
+DELIMITER //
+
+CREATE PROCEDURE mostrarnombre(IN codigo INT)
+begin
+      SELECT concat(Nom_inv,' ',Pat_inv,' ',Mat_inv) as nombre FROM involucrados1 WHERE Cod_inv = codigo;
+end //
+
+
+CREATE PROCEDURE subserie(IN codigo INT)
+begin
+     SELECT des_sub FROM subseries WHERE cod_sub = codigo;
+end //
+
+CREATE PROCEDURE mostrarnotario(IN codigo INT)
+begin
+      SELECT concat(nom_not,' ', pat_not,' ', mat_not) as notario, provincia FROM notarios WHERE cod_not = codigo;
+end //
+
+
+DELIMITER ;
+///////////////////************************
+*/*******************
+USAR LOS SIGUIENTE COMANDOS
+call mostrarnombre(1324);
+call subserie(46);
+call mostrarnotario(25);

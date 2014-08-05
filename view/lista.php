@@ -25,9 +25,9 @@ include "header.php";
 			<?php
 				include "../coreapp/conection.php";
 
-				$nombre  = $_GET['nombre'];
-				$paterno = $_GET['paterno'];
-				$materno = $_GET['materno'];
+				@$nombre  = $_GET['nombre'];
+				@$paterno = $_GET['paterno'];
+				@$materno = $_GET['materno'];
 
 				echo "<span id='nombre'>Nombre Buscado: ".$nombre." ".$paterno." ".$materno."</span><br>";
 				function timequery(){
