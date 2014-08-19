@@ -4,7 +4,6 @@ include "header.php";
 <link rel="stylesheet" type="text/css" href="../css/cuerpo.css">
 <h1>Listado de Personas</h1>
 
-	<section class="datagrid">
 		<form method="get">
 			<input type="text" name="nombre" placeholder="Nombre" />
 			<input type="text" name="paterno" placeholder="Apellido Paterno" />
@@ -12,10 +11,10 @@ include "header.php";
 			<button value="Buscar Nombre" type="submit" name="buscar">Buscar</button>
 		</form>
 
-		<table border ="1" width="1024">
+          <div class="table-responsive">
+            <table class="table table-striped">
 			<tr>
 				<th>Numero</th>
-				<th>Codigo</th>
 				<th>Nombre</th>
 				<th>Apellido Paterno</th>
 				<th>Apellido Materno</th>
@@ -29,7 +28,7 @@ include "header.php";
 				@$paterno = $_GET['paterno'];
 				@$materno = $_GET['materno'];
 
-				echo "<span id='nombre'>Nombre Buscado: ".$nombre." ".$paterno." ".$materno."</span><br>";
+				echo "<p id='nombre'>Nombre Buscado: ".$nombre." ".$paterno." ".$materno."</p><br>";
 				function timequery(){
 				   static $querytime_begin;
 				   list($usec, $sec) = explode(' ',microtime());
@@ -59,8 +58,6 @@ include "header.php";
 						echo "<tr><th>"; 
 								echo $i;
 						echo "</th><th>";
-								echo $fila["Coh_inv"]; 
-						echo "</th><th>";
 								echo $fila["Nom_inv"]; 
 						echo "</th><th>"; 
 								echo $fila["Pat_inv"]; 
@@ -84,7 +81,7 @@ include "header.php";
 				?>
 			</tbody>
 		</table>
-	</section>
+	</div>
 
 </body>
 </html>

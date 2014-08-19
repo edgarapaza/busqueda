@@ -2,34 +2,22 @@
 include "header.php";
 include "../coreapp/conection.php";
 $codigo = $_GET['codigo'];
-echo "Recibido: ".$codigo;
+//echo "Recibido: ".$codigo;
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Mostrar Detalles</title>
-<link rel="stylesheet" type="text/css" href="../css/detalles.css">
-</head>
-<body>
 
-	<header>
-	<h1>Listado de registros</h1>
-	</header>
-	<br/>
-	<section id="columna1" class="datagrid">
-	<caption>Otorgantes</caption><br/>
-	<table border="1" id="t_otorgantes">
-	<thead>
-	<tr>
-	<th>Num</th>
-	<th>Sub-Serie</th>
-	<th>Nombre Persona</th>
-	<th>Nombre Bien</th>
-	<th>Fecha</th>
-	<th>Opciones</th>
-	</tr>
-	</thead>
+	<h2 class="sub-header">Zona Otorgantes</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Num</th>
+						<th>Sub-Serie</th>
+						<th>Notario</th>
+						<th>Fecha</th>
+						<th>Nombre Bien</th>
+						<th>Opciones</th>
+					</tr>
+				</thead>
 	<tbody>
 <?php
 if($result_otorgantes = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv = $codigo;"))
@@ -42,7 +30,7 @@ if($result_otorgantes = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv =
 		{
 			echo "<tr><td>";
 			echo $i;
-			$query1 = "select * from escrituras1 where cod_sct = ".$fila["cod_sct"];
+			$query1 = "SELECT * FROM escrituras1 WHERE cod_sct = ".$fila["cod_sct"];
 			if($escrituras = $mysqli->query($query1))
 			{
 				if($escrituras->num_rows > 0)
@@ -52,17 +40,20 @@ if($result_otorgantes = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv =
 						$query2 = "SELECT des_sub FROM subseries WHERE cod_sub =".$escritura[0];
 						$exe_query2 = $mysqli->query($query2);
 						$subserie1 = $exe_query2->fetch_array();
-					echo $subserie1[0];
+						echo $subserie1[0];
 					echo "</td><td>";
-					echo $escritura[1];
+						$querynotario = "SELECT notario, provincia FROM lista_notarios WHERE cod_not = ".$escritura[1];
+						$exe_notario = $mysqli->query($querynotario);
+						$notario = $exe_notario->fetch_array(); 
+						echo $notario[0];
 					echo "</td><td>";
-					echo $escritura[4];	
+						echo $escritura[4];	
 					echo "</td><td>";
-					echo $escritura[6];	
+						echo $escritura[6];	
 				}
-			}	
+			}
 			echo "</td><td>";
-			echo "<a href='mostrardetalles.php?codigo=". $fila_otorgantes["Cod_inv"] ."'>Mostrar Informacion</a>";
+			echo "<a href='lista_detallada.php?codigo_escritura=". $fila["cod_sct"] ."'>Mostrar Informacion</a>";
 			echo "</td></tr>";
 			$i++;
 		}
@@ -74,24 +65,25 @@ if($result_otorgantes = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv =
 }
 //mysqli_close();
 ?>
-</tbody>
-</table>
-</section>
-<!-- FAVORECIDOS -->
-<section id="columna2" class="datagrid">
-<caption>Favoritos</caption><br/>
-<table border="1" id="t_favorecidos">
-<thead>
-<tr>
-<th>Num</th>
-<th>Sub-Serie</th>
-<th>Nombre Persona</th>
-<th>Nombre Bien</th>
-<th>Fecha</th>
-<th>Opciones</th>
-</tr>
-</thead>
-<tbody>
+		</tbody>
+	</table>	
+</div>
+
+<h2 class="sub-header">Zona Favorecidos</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+
+			<thead>
+				<tr>
+					<th>Num</th>
+					<th>Sub-Serie</th>
+					<th>Notario</th>
+					<th>Fecha</th>
+					<th>Nombre Bien</th>
+					<th>Opciones</th>
+				</tr>
+			</thead>
+			<tbody>
 <?php
 if($result_favorecidos = $mysqli->query("SELECT * FROM escrifavor1 WHERE cod_inv = $codigo;"))
 {
@@ -113,9 +105,13 @@ if($result_favorecidos = $mysqli->query("SELECT * FROM escrifavor1 WHERE cod_inv
 						$query4 = "SELECT des_sub FROM subseries WHERE cod_sub =".$escritura2[0];
 						$exe_query2 = $mysqli->query($query4);
 						$subserie2 = $exe_query2->fetch_array();
-					echo $subserie2[0];
+						echo $subserie2[0];
 					echo "</td><td>";
-					echo $escritura2[1];
+						$querynotario = "SELECT notario, provincia FROM lista_notarios WHERE cod_not = ".$escritura2[1];
+						$exe_notario = $mysqli->query($querynotario);
+						$notario = $exe_notario->fetch_array(); 
+						echo $notario[0];
+						
 					echo "</td><td>";
 					echo $escritura2[4];
 					echo "</td><td>";
@@ -138,8 +134,19 @@ mysqli_close();
 </tbody>
 </table>
 </section>
-</body>
+
+
+<!-- Librería jQuery requerida por los plugins de JavaScript -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+ 
+    <!-- Todos los plugins JavaScript de Bootstrap (también puedes
+         incluir archivos JavaScript individuales de los únicos
+         plugins que utilices) -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
 </html>
+
+
 <?php
 include "footer.php";
 ?>
