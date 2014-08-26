@@ -47,8 +47,10 @@ if($result_otorgantes = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv =
 						$notario = $exe_notario->fetch_array(); 
 						echo $notario[0];
 					echo "</td><td>";
+						//fecha
 						echo $escritura[4];	
 					echo "</td><td>";
+						//Nombre del bien
 						echo $escritura[6];	
 				}
 			}
