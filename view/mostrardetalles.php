@@ -11,54 +11,47 @@ $codigo = $_GET['codigo'];
 				<thead>
 					<tr>
 						<th>Num</th>
-						<th>Sub-Serie</th>
-						<th>Notario</th>
-						<th>Fecha</th>
-						<th>Nombre Bien</th>
+						<th>Escritura</th>
+						<th>Fecha Documento</th>
+						<th>Nombre bien</th>
+						<th>Cantidad folios</th>
 						<th>Opciones</th>
 					</tr>
 				</thead>
 	<tbody>
 <?php
-if($result_otorgantes = $mysqli->query("SELECT * FROM escriotor1 WHERE cod_inv = $codigo;"))
+
+if($result_otorgantes = $mysqli->query("select cod_sct from escriotor1 where cod_inv  = $codigo;"))
 {
 	echo "Numero de Resultados: ".$result_otorgantes->num_rows;
-	$i =1;	
+	$i=1;	
 	if($result_otorgantes->num_rows > 0)
 	{
 		while($fila = $result_otorgantes->fetch_array())
 		{
+            $datosOtorgantes = $mysqli->query("select num_sct,fec_doc,nom_bie,can_fol,cod_pro,obs_sct,num_fol,hra_ing from escrituras1 where cod_sct = $fila[0];");
+            $result222 = $datosOtorgantes->fetch_array();
 			echo "<tr><td>";
-			echo $i;
-			$query1 = "SELECT * FROM escrituras1 WHERE cod_sct = ".$fila["cod_sct"];
-			if($escrituras = $mysqli->query($query1))
-			{
-				if($escrituras->num_rows > 0)
-				{
-					$escritura = $escrituras->fetch_array();
+				echo $i;
 					echo "</td><td>";
-						$query2 = "SELECT des_sub FROM subseries WHERE cod_sub =".$escritura[0];
-						$exe_query2 = $mysqli->query($query2);
-						$subserie1 = $exe_query2->fetch_array();
-						echo $subserie1[0];
+                        echo $result222["num_sct"];
 					echo "</td><td>";
-						$querynotario = "SELECT notario, provincia FROM lista_notarios WHERE cod_not = ".$escritura[1];
-						$exe_notario = $mysqli->query($querynotario);
-						$notario = $exe_notario->fetch_array(); 
-						echo $notario[0];
+						echo $result222["fec_doc"];
 					echo "</td><td>";
 						//fecha
-						echo $escritura[4];	
+						echo $result222["nom_bie"];
 					echo "</td><td>";
 						//Nombre del bien
-						echo $escritura[6];	
-				}
-			}
+						echo $result222["can_fol"];
+			
 			echo "</td><td>";
-			echo "<a href='lista_detallada.php?codigo_escritura=". $fila["cod_sct"] ."'>Mostrar Informacion</a>";
+			echo "<a href='lista_detallada.php?codigo_escritura=". $fila["cod_sct"] ."'>Mostrar + Detalles</a>";
 			echo "</td></tr>";
 			$i++;
 		}
+	}
+	else {
+		echo "<br/>No hay escrituras que mostrar";
 	}
 	}
 	else
